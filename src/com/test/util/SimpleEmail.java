@@ -1,0 +1,53 @@
+package com.test.util;
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+
+public class SimpleEmail {
+
+	/**
+	   Outgoing Mail (SMTP) Server
+	   requires TLS or SSL: smtp.gmail.com (use authentication)
+	   Use Authentication: Yes
+	   Port for TLS/STARTTLS: 587
+	 */
+	public static void main(String[] args) {
+		final String fromEmail = "manisubu3295@gmail.com"; //requires valid gmail id
+		final String password = "8056931190"; // correct password for gmail id
+		final String toEmail = "manisubu3295@yahoo.com"; // can be any email id 
+		List<String> emails = new ArrayList<String>();
+		emails.add("chithrapushparaj@gmail.com ");
+		emails.add("rakhivkulkarni3388@gmail.com ");
+		emails.add("tyahoorajan@gmail.com");
+		//emails.add("email4@email.com");
+		//emails.add("email5@email.com");
+		
+		System.out.println("TLSEmail Start");
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
+		props.put("mail.smtp.port", "587"); //TLS Port
+		props.put("mail.smtp.auth", "true"); //enable authentication
+		props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+		
+                //create Authenticator object to pass in Session.getInstance argument
+		Authenticator auth = new Authenticator() {
+			//override the getPasswordAuthentication method
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		};
+		Session session = Session.getInstance(props, auth);
+		
+		EmailUtil.sendEmail(session, toEmail,"TLSEmail Testing Subject", "TLSEmail Testing Body");
+		
+	}
+
+	
+}
